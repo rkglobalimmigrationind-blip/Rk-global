@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import heroData from '../../data/hero-sections.json';
+import BrochureModal from '../../components/BrochureModal';
 
 // Import assets
 import homeVideo from '../../assets/video/hero-video.mp4';
@@ -14,6 +15,7 @@ const assetMap = {
 };
 
 const Hero = ({ page = 'home' }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const content = heroData[page];
   const isCitizenshipPage = page === 'citizenship';
   const heroContentMaxWidthClass = 'max-w-[1400px]';
@@ -117,16 +119,29 @@ const Hero = ({ page = 'home' }) => {
               >
                 {primaryButton}
               </Link>
-              <Link
-                to="/contact"
-                className={`flex-1 md:flex-none rounded-[10px] bg-white hover:bg-gray-50 hover:-translate-y-1 hover:shadow-2xl active:scale-95 text-gray-900 transition-all duration-300 ease-out shadow-xl flex items-center justify-center font-sans font-normal uppercase tracking-wider ${
-                  isCitizenshipPage
-                    ? 'md:min-w-[160px] lg:min-w-[190px] md:w-auto px-5 lg:px-6 h-[44px] md:h-[48px] lg:h-[50px] text-[12px] md:text-[14px] lg:text-[16px]'
-                    : 'md:min-w-[150px] lg:min-w-[170px] md:w-auto px-6 lg:px-8 h-[46px] md:h-[48px] lg:h-[50px] text-[12px] md:text-[14px] lg:text-[16px]'
-                }`}
-              >
-                {secondaryButton}
-              </Link>
+              {secondaryButton.toLowerCase().includes('brochure') ? (
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className={`flex-1 md:flex-none rounded-[10px] bg-white hover:bg-gray-50 hover:-translate-y-1 hover:shadow-2xl active:scale-95 text-gray-900 transition-all duration-300 ease-out shadow-xl flex items-center justify-center font-sans font-normal uppercase tracking-wider ${
+                    isCitizenshipPage
+                      ? 'md:min-w-[160px] lg:min-w-[190px] md:w-auto px-5 lg:px-6 h-[44px] md:h-[48px] lg:h-[50px] text-[12px] md:text-[14px] lg:text-[16px]'
+                      : 'md:min-w-[150px] lg:min-w-[170px] md:w-auto px-6 lg:px-8 h-[46px] md:h-[48px] lg:h-[50px] text-[12px] md:text-[14px] lg:text-[16px]'
+                  }`}
+                >
+                  {secondaryButton}
+                </button>
+              ) : (
+                <Link
+                  to="/contact"
+                  className={`flex-1 md:flex-none rounded-[10px] bg-white hover:bg-gray-50 hover:-translate-y-1 hover:shadow-2xl active:scale-95 text-gray-900 transition-all duration-300 ease-out shadow-xl flex items-center justify-center font-sans font-normal uppercase tracking-wider ${
+                    isCitizenshipPage
+                      ? 'md:min-w-[160px] lg:min-w-[190px] md:w-auto px-5 lg:px-6 h-[44px] md:h-[48px] lg:h-[50px] text-[12px] md:text-[14px] lg:text-[16px]'
+                      : 'md:min-w-[150px] lg:min-w-[170px] md:w-auto px-6 lg:px-8 h-[46px] md:h-[48px] lg:h-[50px] text-[12px] md:text-[14px] lg:text-[16px]'
+                  }`}
+                >
+                  {secondaryButton}
+                </Link>
+              )}
             </div>
 
             {/* Flag if provided */}
@@ -142,6 +157,12 @@ const Hero = ({ page = 'home' }) => {
           </div>
         </div>
       </section>
+      
+      <BrochureModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        brochurePath={null} // Will use default message
+      />
     </div>
   );
 };

@@ -17,6 +17,7 @@ import { defaultDigitalNomadSlug } from './data/digitalNomadPrograms';
 import WhatsAppFloat from './components/WhatsAppFloat';
 
 
+// ss 
 function App() {
   return (
     <BrowserRouter>

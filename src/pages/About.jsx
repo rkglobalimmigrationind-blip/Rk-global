@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, BadgeCheck, Eye, Scale, ShieldCheck, Target, Users } from 'lucide-react';
@@ -11,6 +11,7 @@ import ctaBg from '../assets/images/unlock-banner.png';
 
 import citizenshipPrograms from '../data/citizenshipPrograms';
 import residencePrograms from '../data/residencePrograms';
+import BrochureModal from '../components/BrochureModal';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -29,6 +30,7 @@ const SectionLabel = ({ children }) => (
 );
 
 const About = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const content = useMemo(
     () => ({
       aboutTitle: 'Our Expertise',
@@ -143,12 +145,12 @@ const About = () => {
                 >
                   Apply Now
                 </NavLink>
-                <NavLink
-                  to="/contact"
+                <button
+                  onClick={() => setIsModalOpen(true)}
                   className="flex-1 sm:flex-none h-[40px] md:h-[48px] px-4 md:px-6 rounded-[12px] bg-white/95 hover:bg-white active:scale-[0.98] transition-all shadow-[0_12px_30px_rgba(0,0,0,0.16)] text-[#0a2769] font-extrabold uppercase tracking-[0.08em] md:tracking-[0.12em] text-[9px] md:text-[11px] inline-flex items-center justify-center text-center"
                 >
                   Download Brochure
-                </NavLink>
+                </button>
               </div>
             </div>
           </section>
@@ -389,6 +391,12 @@ const About = () => {
           </div>
         </motion.section>
       </div>
+
+      <BrochureModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        brochurePath={null}
+      />
     </main>
   );
 };

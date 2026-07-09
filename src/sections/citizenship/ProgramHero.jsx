@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import citizenshipBg from '../../assets/images/citizenship.png';
 import { getBrochurePath } from '../../data/brochures';
+import BrochureModal from '../../components/BrochureModal';
 
 const ProgramHero = ({ program }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const heroImage = program.heroImage || citizenshipBg;
   const category = program.categoryLabel || 'citizenship by investment';
   const brochurePath = getBrochurePath(program.slug);
@@ -46,15 +48,12 @@ const ProgramHero = ({ program }) => {
                 Apply Now
               </Link>
               {brochurePath.startsWith('/Brochure/') ? (
-                <a
-                  href={brochurePath}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
+                <button
+                  onClick={() => setIsModalOpen(true)}
                   className="flex-1 md:flex-none md:min-w-[150px] lg:min-w-[190px] md:w-auto px-4 md:px-5 lg:px-6 min-h-[40px] md:h-[48px] lg:h-[54px] text-[10px] md:text-[13px] lg:text-[16px] rounded-[10px] bg-white hover:bg-gray-50 hover:-translate-y-1 hover:shadow-2xl active:scale-95 text-gray-900 transition-all duration-300 ease-out shadow-xl flex items-center justify-center font-sans font-semibold lg:font-normal uppercase tracking-[0.08em] lg:tracking-wider text-center whitespace-normal leading-[1.25]"
                 >
                   Download Brochure
-                </a>
+                </button>
               ) : (
                 <Link
                   to="/contact"
@@ -75,6 +74,12 @@ const ProgramHero = ({ program }) => {
           </div>
         </div>
       </section>
+
+      <BrochureModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        brochurePath={brochurePath}
+      />
     </div>
   );
 };
